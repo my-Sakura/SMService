@@ -13,7 +13,7 @@ import (
 func main() {
 	r := gin.Default()
 
-	db, err := sql.Open("mysql", "root:123456@tcp(192.168.0.253:3307)/mysql")
+	db, err := sql.Open("mysql", "root:123456@tcp(127.0.0.1:3307)/mysql")
 	if err != nil {
 		panic(err)
 	}
@@ -23,6 +23,7 @@ func main() {
 	config := utils.NewConfig(appCode)
 
 	s := controller.NewSMSController(db, config)
+	r.Use(utils.Cors())
 	s.RegistRouter(r)
 
 	r.Run(":8000")
